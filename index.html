@@ -30,6 +30,10 @@ input:disabled,select:disabled{opacity:.6}
 input:focus,select:focus,button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 button{padding:8px 13px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
 button.p{background:var(--acc);color:var(--ai);border-color:var(--acc);font-weight:700}button.on{border-color:var(--acc);font-weight:700}
+#formOptions{display:flex;justify-content:center;gap:10px;max-width:340px;margin:0 auto}
+#formOptions .form-option{flex:1;min-width:0;min-height:92px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:var(--bg);font-size:13px}
+#formOptions .form-option:hover{border-color:var(--acc);color:var(--acc)}
+#formOptions svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
 .tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:620px;margin-top:10px}
 th,td{text-align:left;padding:7px;border-bottom:1px solid var(--line)}th{font-size:12.5px;color:var(--mut)}
@@ -37,6 +41,8 @@ th,td{text-align:left;padding:7px;border-bottom:1px solid var(--line)}th{font-si
 @media (max-width:640px){.g>*{grid-column:1/-1!important}.g>.half{grid-column:span 6!important}}
 td input[type=checkbox],th input[type=checkbox]{width:auto}#delsel:not(:disabled){color:#b3261e;border-color:#b3261e}.logo{height:48px;width:auto;display:block}#dlg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}#dlg[hidden]{display:none}:root[data-theme="dark"]{color-scheme:dark}:root[data-theme="light"]{color-scheme:light}.top{padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}.tools{display:flex;gap:6px;align-items:center}.tools [hidden]{display:none!important}
 #tF,#tR,#tA,#theme,#so{width:40px;height:40px;padding:0;display:inline-flex;align-items:center;justify-content:center;position:relative;border-radius:10px}
+#home{height:40px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:10px}
+#home svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tools svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #tF.on,#tR.on,#tA.on{background:var(--acc);color:var(--ai);border-color:var(--acc)}
 .badge{position:absolute;top:-6px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--ink);color:var(--card);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
@@ -47,11 +53,12 @@ th[data-sort]{cursor:pointer;user-select:none;white-space:nowrap}th[data-a]::aft
 <body>
 <main>
 <div class="top"><img class="logo" id="logo" alt="Mabuhay Interflour"><div style="flex:1;min-width:140px"><h1>Know Your Business Partner</h1><div id="who" style="font-size:12.5px;color:var(--mut)"></div></div>
-<div class="tools"><button id="tF" class="on" hidden title="Form" aria-label="Form"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></button><button id="tR" hidden title="Records" aria-label="Records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="badge" id="cnt">0</span></button><button id="tS" hidden title="Submitted forms" aria-label="Submitted forms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/></svg><span class="badge gold" id="scnt" hidden>0</span></button><button id="tH" hidden title="History" aria-label="History"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button><button id="tA" hidden title="Access" aria-label="Access"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></button><button id="theme" title="Theme" aria-label="Theme"></button><button id="so" hidden title="Sign out" aria-label="Sign out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div></div>
+<div class="tools"><button id="home" type="button" hidden aria-label="Return to home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg>Home</button><button id="tF" class="on" hidden title="Form" aria-label="Form"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></button><button id="tR" hidden title="Records" aria-label="Records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="badge" id="cnt">0</span></button><button id="tS" hidden title="Submitted forms" aria-label="Submitted forms"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/></svg><span class="badge gold" id="scnt" hidden>0</span></button><button id="tH" hidden title="History" aria-label="History"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button><button id="tA" hidden title="Access" aria-label="Access"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></button><button id="theme" title="Theme" aria-label="Theme"></button><button id="so" hidden title="Sign out" aria-label="Sign out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></button></div></div>
 
-<div id="gate" class="card" style="text-align:center;padding:32px 16px"><img id="logo2" alt="Mabuhay Interflour" style="height:90px;max-width:100%;margin-bottom:8px"><h2 style="font-size:21px;margin-bottom:4px">Welcome</h2><p style="color:var(--mut);margin:0 0 14px">Know Your Business Partner</p><p id="gmsg" style="margin:0 0 16px">Checking your sign-in...</p><button class="p" id="enter" hidden>Enter</button>
-<div style="max-width:300px;margin:18px auto 0;text-align:left"><div style="text-align:center;color:var(--mut);font-size:13px;margin-bottom:8px">or sign in with an app account</div>
-<label for="lu">Username</label><input id="lu" autocomplete="username" style="margin-bottom:8px"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" style="margin-bottom:10px"><button class="p" id="lbtn" style="width:100%">Sign in</button><div id="lerr" style="color:#b3261e;font-size:13px;margin-top:6px;min-height:18px"></div></div><div style="text-align:center;margin-top:8px"><button id="gload" style="font-size:12.5px">Load accounts file</button><input id="gfile" type="file" accept=".json" hidden></div></div>
+<div id="gate" class="card" style="text-align:center;padding:32px 16px"><img id="logo2" alt="Mabuhay Interflour" style="height:90px;max-width:100%;margin-bottom:8px"><h2 style="font-size:21px;margin-bottom:4px">Welcome</h2><p style="color:var(--mut);margin:0 0 14px">Know Your Business Partner</p><p id="gmsg" style="margin:0 0 16px">Checking your sign-in...</p><button class="p" id="enter" hidden>Enter</button><div id="formChoice" hidden><p style="margin:12px 0 8px">Which form would you like to fill out?</p><div id="formOptions"><button class="form-option" id="startCustomer" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1a7 7 0 0 1 14 0v1z"/></svg><span>Customer form</span></button><button class="form-option" id="startVendor" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18l-2-6H5zM5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg><span>Vendor form</span></button></div><button id="cancelChoice" style="margin-top:10px">Cancel</button></div>
+<div style="margin:18px auto 0"><button id="toggleSignIn" type="button" aria-expanded="false" aria-controls="appSignIn">Sign in with an app account</button>
+<div id="appSignIn" hidden style="max-width:300px;margin:12px auto 0;text-align:left">
+<label for="lu">Username</label><input id="lu" autocomplete="username" style="margin-bottom:8px"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" style="margin-bottom:10px"><button class="p" id="lbtn" style="width:100%">Sign in</button><div id="lerr" style="color:#b3261e;font-size:13px;margin-top:6px;min-height:18px"></div><div style="text-align:center;margin-top:8px"><button id="gload" style="font-size:12.5px">Load accounts file</button><input id="gfile" type="file" accept=".json" hidden></div></div></div></div>
 <div id="app" hidden>
 <div id="src" style="font-size:12.5px;color:var(--mut);margin-bottom:8px">Storage: this browser only</div>
 <div id="vF" class="card"><div class="row" style="margin:0 0 12px"><button id="tyCustomer" class="on">Customer form</button><button id="tyVendor">Vendor form</button></div>
@@ -390,7 +397,10 @@ function applyLogo(){const t=document.documentElement.dataset.theme,u=t==="dark"
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyLogo);
 {let th="system";try{th=localStorage.getItem("kybp_theme")||"system"}catch(e){}setTheme(th,false)}
 $("theme").onclick=()=>setTheme({system:"light",light:"dark",dark:"system"}[document.documentElement.dataset.theme||"system"],true);
-function showGate(msg,ok,lbl){entered=false;$("app").hidden=true;$("gate").hidden=false;["tF","tR","tA","tS","tH","so"].forEach(i=>$(i).hidden=true);$("who").textContent="";$("gload").hidden=!!DB;$("gmsg").textContent=msg;$("enter").hidden=!ok;$("enter").textContent=lbl||"Enter"}
+ $("toggleSignIn").onclick=()=>{const open=$("appSignIn").hidden;$("appSignIn").hidden=!open;$("toggleSignIn").setAttribute("aria-expanded",String(open))};
+function showGate(msg,ok,lbl){entered=false;$("app").hidden=true;$("gate").hidden=false;["home","tF","tR","tA","tS","tH","so"].forEach(i=>$(i).hidden=true);$("who").textContent="";$("gload").hidden=!!DB;$("gmsg").textContent=msg;$("enter").hidden=!ok;$("enter").textContent=lbl||"Enter";$("formChoice").hidden=true;$("appSignIn").hidden=true;$("toggleSignIn").setAttribute("aria-expanded","false")}
+function goHome(){entered=false;if(INTAKE){INTAKE=false;ROLE=null}if(SESS){const a=ACCTS[SESS.id];if(a&&a.active!==false){SESS.role=ROLE=a.role;SESS.forms=a.forms||"Both";showGate("Hello, "+SESS.name+". You are signed in as "+ROLE+".",true);return}SESS=null;ROLE=null}roleUpdate()}
+$("home").onclick=goHome;
 function roleUpdate(){
  if(SESS){const a=ACCTS[SESS.id];if(a&&a.active!==false){SESS.role=ROLE=a.role;SESS.forms=a.forms||"Both";if(entered)applyRole();return}SESS=null;ROLE=null;showGate("Your account was removed or disabled.",false);return}
  if(!idReady)return;
@@ -404,6 +414,7 @@ function roleUpdate(){
  if(entered){applyRole();return}
  showGate((signedOut?"You have signed out. ":"")+"Hello, "+nm+". You are signed in as "+ROLE+(ROLE==="Admin"?" (all forms)":" ("+FORMSOF().join(" and ")+" form"+(FORMSOF().length>1?"s":"")+")")+".",true)}
 function applyRole(){const w=canW(),a=isAdm();
+ $("home").hidden=false;
  $("tF").hidden=!w;$("tR").hidden=false;$("tA").hidden=!a;$("tS").hidden=!a;$("tH").hidden=!a;if(a)startAdminSubs();
  ["pdfb","pdfb2","imp"].forEach(i=>$(i).hidden=!w);["xls","mpdf"].forEach(i=>$(i).hidden=isView());["impl","delsel","all"].forEach(i=>$(i).hidden=!a);
  $("who").textContent=(SESS?SESS.name:(ME.name||"Signed in"))+" - "+ROLE+(ROLE==="Admin"?"":" ("+FORMSOF().join("/")+")");$("so").hidden=false;
@@ -411,7 +422,10 @@ function applyRole(){const w=canW(),a=isAdm();
  [...$("rt").options].forEach(o=>o.hidden=o.value?!fs.includes(o.value):fs.length<2);
  if(fs.length<2)$("rt").value=fs[0];else if($("rt").value&&!fs.includes($("rt").value))$("rt").value="";$("rt").hidden=fs.length<2;
  if(!w&&!$("vF").hidden)tab(false);if(!a&&!$("vA").hidden)tab(false);render()}
-$("enter").onclick=()=>{signedOut=false;ROLE?openApp():openIntake()};
+$("enter").onclick=()=>{signedOut=false;if(ROLE){openApp();return}$("enter").hidden=true;$("formChoice").hidden=false};
+$("startCustomer").onclick=()=>openIntake("Customer");
+$("startVendor").onclick=()=>openIntake("Vendor");
+$("cancelChoice").onclick=()=>{$("formChoice").hidden=true;$("enter").hidden=false};
 function openApp(){entered=true;$("gate").hidden=true;$("app").hidden=false;applyRole();tab(canW()?true:false)}
 (async()=>{try{const u=await (window.claude&&window.claude.use("user"));if(u){USER=u;ME=await u.me()}}catch(e){}idReady=true;roleUpdate()})();
 setTimeout(()=>{if(!aclReady){aclReady=true;roleUpdate()}},6000);
@@ -548,19 +562,20 @@ $("sigf").onchange=e=>{const f=e.target.files[0];e.target.value="";if(!f)return;
  fr.readAsDataURL(f)};
 
 function hideInternal(){["cid","ostat"].forEach(k=>{const e=$(k);if(e)e.parentElement.hidden=true})}
-function openIntake(){INTAKE=true;entered=true;$("gate").hidden=true;$("app").hidden=false;
- ["tF","tR","tA","tS","tH","so"].forEach(i=>$(i).hidden=true);$("who").textContent="Customer form";$("src").hidden=true;
+function openIntake(type){INTAKE=true;entered=true;$("gate").hidden=true;$("app").hidden=false;$("home").hidden=false;
+ ["tF","tR","tA","tS","tH","so"].forEach(i=>$(i).hidden=true);$("who").textContent=type+" form";$("src").hidden=true;
  ["tyCustomer","tyVendor","fpdf","pdfb2"].forEach(i=>$(i).hidden=true);
- if(TYPE!=="Customer")setType("Customer");hideInternal();load(null);tab(true);$("stw").hidden=true;$("save").title="Submit form";$("save").setAttribute("aria-label","Submit form")}
+ if(TYPE!==type)setType(type);hideInternal();load(null);tab(true);$("stw").hidden=true;$("save").title="Submit form";$("save").setAttribute("aria-label","Submit form")}
 async function submitIntake(){const r=rec();
- if(!nameOf({...r,type:"Customer"}).trim()){say("Please enter the Registered Entity Name.");$(TYPES.Customer.name).focus();return}
- {const ck=checkRec({...r,type:"Customer"},"Customer");if(ck.errs.length){say("Please fill in: "+ck.errs.join(", ")+".");return}
+ const T=TYPES[TYPE];
+ if(!nameOf({...r,type:TYPE}).trim()){say("Please enter the "+(TYPE==="Vendor"?"Payee / Company Name":"Registered Entity Name")+".");$(T.name).focus();return}
+ {const ck=checkRec({...r,type:TYPE},TYPE);if(ck.errs.length){say("Please fill in: "+ck.errs.join(", ")+".");return}
   if(ck.warn.length&&!await ask("Please check before submitting:\n- "+ck.warn.join("\n- "),"Submit anyway"))return}
  if(!SIG.has){say("Please add your signature before submitting.");return}
  if(!DB){say("Submitting is not available right now. Please try again later.");return}
  const id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);
  if(!PUB){say("The form is not ready yet. Please try again later or contact the administrator.");return}
- try{const enc=await encSub({...r,type:"Customer",sig:SIG.data(),by:ME.name||""});await DB.collection("submissions").doc(id).set({...enc,ts:Date.now()});load(null);say("Thank you. Your form was submitted.")}
+ try{const enc=await encSub({...r,type:TYPE,sig:SIG.data(),by:ME.name||""});await DB.collection("submissions").doc(id).set({...enc,ts:Date.now()});load(null);say("Thank you. Your form was submitted.")}
  catch(x){say("Could not submit the form ("+((x&&x.code)||"error")+"). Please try again.")}}
 function subUi(){const n=SUBS.length;$("scnt").textContent=n;$("scnt").hidden=!n;if(!$("vS").hidden)renderSubs()}
 function renderSubs(){$("sempty").hidden=SUBS.length>0;
