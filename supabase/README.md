@@ -37,3 +37,12 @@ Supabase secret or service-role key in this repository. Row-level security in
 matching form access, edits require Admin or Editor access, and deletion is
 Admin-only. Public form submissions can be inserted without sign-in but can
 only be read and processed by Admins.
+
+## Offline record backup
+
+Admins can open **Records** and use **Download complete offline backup** to
+download every shared record as a timestamped JSON file. The backup includes
+all record fields and signatures; treat it as confidential business data and
+store it in a secure location. Keep more than one copy and periodically verify
+that a downloaded file opens and contains the expected record count. This
+download is a backup copy only; it does not restore records to Supabase.
