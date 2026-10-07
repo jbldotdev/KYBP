@@ -37,6 +37,8 @@ button.p{background:var(--acc);color:var(--ai);border-color:var(--acc);font-weig
 #formOptions .form-option{flex:1;min-width:0;min-height:92px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:var(--bg);font-size:13px}
 #formOptions .form-option:hover{border-color:var(--acc);color:var(--acc)}
 #formOptions svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#backup{width:44px;height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center;position:relative;border-radius:10px}
+#backup svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .home-widgets{display:flex;justify-content:center;gap:10px;max-width:360px;margin:0 auto 16px}
 .home-widget{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:14px;font-weight:600}
 .home-widget-label{display:block;margin-bottom:2px;color:var(--mut);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em}
@@ -75,6 +77,7 @@ th[data-sort]{cursor:pointer;user-select:none;white-space:nowrap}th[data-a]::aft
 <div id="msg" role="status"></div></div>
 
 <div id="vR" class="card" hidden>
+<div class="row" style="margin-top:0;justify-content:flex-end"><button id="backup" type="button" title="Download complete offline JSON backup" aria-label="Download complete offline backup" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v3h14v-3"/></svg></button></div>
 <div class="row" style="margin-top:0"><input id="q" style="flex:1;min-width:180px" placeholder="Search any detail" aria-label="Search"><select id="rt" style="width:auto" aria-label="Record type"><option value="">All records</option><option value="Customer">Customers</option><option value="Vendor">Vendors</option></select>
 <button id="xls" title="Download Excel" aria-label="Download Excel"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg><span class="badge gold" id="xcnt" hidden>0</span></button><button id="mpdf" title="Download one PDF of the selected records (or all shown)" aria-label="Download PDF of selected or all records"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l4 4v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M4 7v12a2 2 0 0 0 2 2h9M12 9v5M10 12l2 2 2-2"/></svg><span class="badge gold" id="mcnt" hidden>0</span></button><button id="imp" title="Import Excel/CSV" aria-label="Import Excel/CSV"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></button><button id="pdfb" title="Read PDF form(s)" aria-label="Read PDF form(s)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><circle cx="11" cy="14" r="2.5"/><path d="M13 16l2.5 2.5"/></svg></button><button id="impl" title="Import locations" aria-label="Import locations"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></button><input id="lf" type="file" accept=".xlsx,.xls,.csv" hidden><input id="pf" type="file" accept=".pdf,application/pdf" multiple hidden><button id="delsel" title="Delete selected (0)" aria-label="Delete selected (0)" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg><span class="badge" id="dcnt" hidden>0</span></button><select id="bst" hidden style="width:auto" aria-label="Set status for selected records"><option value="">Set status...</option><option>Pending</option><option>Approved</option><option>Expired</option><option>Inactive</option></select><input id="file" type="file" accept=".xlsx,.xls,.csv" hidden></div>
 <div class="row" id="flt2"><select id="fp" style="width:auto" aria-label="Province"><option value="">All provinces</option></select><select id="fs" style="width:auto" aria-label="Status"><option value="">All statuses</option><option>Pending</option><option>Approved</option><option>Expired</option><option>Inactive</option><option value="__none">No status</option></select><label style="margin:0;display:flex;align-items:center;gap:4px">From <input type="date" id="fd1" style="width:auto"></label><label style="margin:0;display:flex;align-items:center;gap:4px">To <input type="date" id="fd2" style="width:auto"></label><button id="fclr">Clear filters</button></div>
@@ -254,6 +257,20 @@ $("xls").onclick=()=>{const rows=sel.size?data.filter(r=>sel.has(r.id)&&canForm(
  const wb=XLSX.utils.book_new();
  Object.keys(TYPES).forEach(t=>{const rr=rows.filter(r=>rtype(r)===t),F=TYPES[t].F;if(rr.length||(t==="Customer"&&!sel.size))XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([[...F.map(HK),"Status","Updated"],...rr.map(r=>[...F.map(f=>r[f.k]||""),r.status||"",r.upd||r.ts?new Date(r.upd||r.ts).toISOString().slice(0,10):""])]),TYPES[t].sheet)});
  saveFile("kybp-records.xlsx",XLSX.write(wb,{bookType:"xlsx",type:"array"}))};
+$("backup").onclick=async()=>{if(!isAdm()||!DB)return;
+ if(!await ask("Download a complete offline backup of all shared records? The JSON file contains sensitive customer and vendor information. Store it securely.","Download backup"))return;
+ const btn=$("backup");btn.disabled=true;btn.title="Preparing complete backup...";
+ try{const rows=[];for(let offset=0;;offset+=500){const{data:batch,error}=await DB.from("kybp_records").select("id,data").order("id",{ascending:true}).range(offset,offset+499);
+   if(error){alert("Could not create the backup ("+error.message+"). No file was downloaded.");return}
+   if(!batch.length)break;
+   rows.push(...batch);
+   if(batch.length<500)break}
+  const records=rows.map(row=>({...row.data,id:row.id})),backup={format:"KYBP_OFFLINE_BACKUP",version:1,exportedAt:new Date().toISOString(),recordCount:records.length,records};
+  const stamp=backup.exportedAt.replace(/[:.]/g,"-"),name="KYBP-offline-backup-"+stamp+".json";
+  await saveFile(name,new Blob([JSON.stringify(backup,null,2)],{type:"application/json"}));
+  alert("Offline backup downloaded: "+records.length+" record(s). Store the JSON file securely.");
+ }catch(error){console.error("Could not create offline backup:",error);alert("Could not create the backup. "+(error&&error.message||"Please try again."))}
+ finally{btn.disabled=false;btn.title="Download complete offline JSON backup"}};
 $("imp").onclick=()=>$("file").click();
 $("file").onchange=async e=>{const f=e.target.files[0];if(!f)return;
  try{const wb=XLSX.read(await f.arrayBuffer()),list=[];
@@ -461,7 +478,7 @@ $("theme").onclick=()=>setTheme({system:"light",light:"dark",dark:"system"}[docu
   showGate("Signed in as "+(ME.name||ME.email)+" ("+ROLE+").",true,"Enter")}
  function applyRole(){const w=canW(),a=isAdm();
   $("home").hidden=false;
-  $("tF").hidden=!w;$("tR").hidden=false;$("tA").hidden=!a;$("tS").hidden=!a;$("tH").hidden=!a;if(a)refreshAdminData();
+  $("tF").hidden=!w;$("tR").hidden=false;$("tA").hidden=!a;$("tS").hidden=!a;$("tH").hidden=!a;$("backup").hidden=!a;if(a)refreshAdminData();
   ["pdfb","pdfb2","imp"].forEach(i=>$(i).hidden=!w);["xls","mpdf"].forEach(i=>$(i).hidden=isView());["impl","delsel","all"].forEach(i=>$(i).hidden=!a);
   $("who").textContent=(ME.name||ME.email)+" - "+ROLE+(ROLE==="Admin"?"":" ("+FORMSOF().join("/")+")");$("so").hidden=false;
  const fs=FORMSOF();$("tyCustomer").hidden=!fs.includes("Customer");$("tyVendor").hidden=!fs.includes("Vendor");if(!fs.includes(TYPE))setType(fs[0]);
